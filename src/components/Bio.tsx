@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const Bio: React.FC = () => {
   const bio = useSelector((state: RootState) => state.bio);
@@ -12,7 +12,7 @@ const Bio: React.FC = () => {
       <p>{bio.aboutMe}</p>
       <p>Blood Group: {bio.bloodGroup}</p>
       {bio.resume && <a href={bio.resume}>Download Resume</a>}
-      <Link to="/bio/edit">Edit</Link>
+      {/* <Link to="/bio/edit">Edit</Link> */}
     </div>
   );
 };

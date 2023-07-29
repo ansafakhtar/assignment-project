@@ -51,31 +51,34 @@ const EditSkills: React.FC = () => {
     }
   };
 
-  const handleSaveSkills = () => {
-    console.log('Selected skills:', selectedSkills);
-  };
+  // const handleSaveSkills = () => {
+  //   console.log('Selected skills:', selectedSkills);
+  // };
 
   return (
     <div>
-      <h2>Available Skills</h2>
-      <ul>
-        {availableSkills.map((skill) => (
-          <li key={skill} onClick={() => handleSkillSelect(skill)} style={{cursor:"pointer"}}>
-            {skill}
-          </li>
-        ))}
-      </ul>
-
       <h2>Selected Skills</h2>
       <ul>
         {selectedSkills.map((skill) => (
           <li key={skill}>{skill}</li>
         ))}
       </ul>
-
-      <button onClick={handleSaveSkills}>Save</button>
-
+      <br></br>
       <Link to="/">Back</Link>
+      <br></br>
+      <h2>Available Skills</h2>
+      <ul>
+        {availableSkills.map((skill) => (
+          <li
+            key={skill}
+            onClick={() => handleSkillSelect(skill)}
+            style={{ cursor: "pointer" }}
+          >
+            {skill}
+          </li>
+        ))}
+      </ul>
+      {/* <button onClick={handleSaveSkills}>Save</button> */}
     </div>
   );
 };
