@@ -1,17 +1,17 @@
-import { useState } from "react";
+// import { useState } from "react";
 import "./App.css";
 import Bio from "./components/Bio";
-import Skills from "./components/Skills";
-import EditSkills from "./components/EditSkills";
-import { Route, Routes } from "react-router-dom";
+// import Skills from "./components/Skills";
+// import EditSkills from "./components/EditSkills";
+// import { Route, Routes } from "react-router-dom";
 
 function App() {
 
-  const [skills,setSkills] = useState<string[]>([]);
+  // const [skills,setSkills] = useState<string[]>([]);
 
-  const handleSave = (selectedSkills: string[]) => {
-    setSkills(selectedSkills);
-  }
+  // const handleSave = (selectedSkills: string[]) => {
+  //   setSkills(selectedSkills);
+  // }
 
   return (
   <>
