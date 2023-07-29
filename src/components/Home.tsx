@@ -8,9 +8,9 @@ const Home: React.FC = () => {
     <div>
       <h1>My Profile</h1>
       <Bio />
-      <Link to="/bio/edit">Edit Bio</Link>
+      <Link to="/bio/edit"><button>Edit Bio</button></Link>
       <Skills />
-      <Link to="/skills/edit">Edit Skills</Link>
+      <Link to="/skills/edit"><button>Edit Skills</button></Link>
     </div>
   );
 };

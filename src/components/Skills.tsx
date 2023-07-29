@@ -4,6 +4,7 @@ import { RootState } from '../store';
 
 const Skills: React.FC = () => {
   const skills = useSelector((state: RootState) => state.skills.selectedSkills);
+  const hobbies = useSelector((state: RootState) => state.skills.selectedHobbies);
 
   return (
     <div>
@@ -13,7 +14,13 @@ const Skills: React.FC = () => {
           <li key={index}>{skill}</li>
         ))}
       </ul>
-      {/* <button>Edit</button> */}
+
+      <h2>Hobbies</h2>
+      <ul>
+        {hobbies.map((hobby, index) => (
+          <li key={index}>{hobby}</li>
+        ))}
+      </ul>      
     </div>
   );
 };
