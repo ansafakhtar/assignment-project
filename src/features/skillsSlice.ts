@@ -5,6 +5,8 @@ interface SkillsState {
   selectedSkills: string[];
   availableHobbies: string[];
   selectedHobbies: string[];
+  availableSubjects: string[];
+  selectedSubjects: string[];  
 }
 
 const initialState: SkillsState = {
@@ -12,6 +14,8 @@ const initialState: SkillsState = {
   selectedSkills: [],
   availableHobbies: [],
   selectedHobbies: [],
+  availableSubjects: [],
+  selectedSubjects: [],  
 };
 
 const skillsSlice = createSlice({
@@ -31,8 +35,15 @@ const skillsSlice = createSlice({
     setSelectedHobbies: (state, action: PayloadAction<string[]>) => {
       state.selectedHobbies = action.payload;
     },    
+
+    setAvailableSubjects: (state, action: PayloadAction<string[]>) => {
+      state.availableSubjects = action.payload;
+    },
+    setSelectedSubjects: (state, action: PayloadAction<string[]>) => {
+      state.selectedSubjects = action.payload;
+    },      
   },
 });
 
-export const { setAvailableSkills, setSelectedSkills, setAvailableHobbies, setSelectedHobbies } = skillsSlice.actions;
+export const { setAvailableSkills, setSelectedSkills, setAvailableHobbies, setSelectedHobbies, setAvailableSubjects, setSelectedSubjects } = skillsSlice.actions;
 export const skillSliceReducer = skillsSlice.reducer;

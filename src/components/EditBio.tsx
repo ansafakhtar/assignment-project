@@ -56,8 +56,12 @@ const EditBio: React.FC = () => {
         type="file"
         onChange={(e) => setResume(e.target.files?.[0] || null)}
       />
+      <br></br>
+      <br></br>
       <button onClick={handleSave}>Save</button>
-      <Link to="/">Back</Link>
+      <br></br>
+      <br></br>
+      <Link to="/"><button>Back</button></Link>
     </div>
   );
 };
