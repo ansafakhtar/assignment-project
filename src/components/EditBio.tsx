@@ -1,70 +1,63 @@
 import React, { useState } from "react";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import "./EditBio.css";
+import { useDispatch } from "react-redux";
+import {
+  settingAboutMe,
+  settingBloodGroup,
+  settingResume,
+} from "../features/bioSlice";
+import { Link } from "react-router-dom";
+import { AppDispatch } from "../store";
 
-interface BioDetails {
-  aboutMe: string;
-  bloodGroup: string;
-  resume?: File | null;
-}
+const EditBio: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-interface EditBioProps {
-  bio: BioDetails;
-  onSaveBio: (updatedBio: BioDetails) => void;
-}
+  const [aboutMe, setAboutMe] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [resume, setResume] = useState<File | null>(null);
 
-const EditBio: React.FC<EditBioProps> = ({ bio, onSaveBio }) => {
-  const [editedBio, setEditedBio] = useState<BioDetails>(bio);
-
-  const handleSaveClick = () => {
-    onSaveBio(editedBio);
+  const handleSave = () => {
+    dispatch(settingAboutMe(aboutMe));
+    dispatch(settingBloodGroup(bloodGroup));
+    if (resume) {
+      // Handle the file upload
+      // For simplicity, I'm only storing the file name in the Redux store.
+      dispatch(settingResume(resume.name));
+    }
   };
 
   return (
-    <div className="edit-container">
+    <div>
+      <h2>Edit Bio</h2>
       <div>
-        <ArrowBackIosIcon />
-        <h2>My Bio</h2>
+        <label>About Me:</label>
+        <textarea
+          value={aboutMe}
+          onChange={(e) => setAboutMe(e.target.value)}
+          style={{ width: "90%", height: "200px" }}
+        />
       </div>
-      <p>Write something about yourself?</p>
-      <textarea
-        value={editedBio.aboutMe}
-        onChange={(e) =>
-          setEditedBio({ ...editedBio, aboutMe: e.target.value })
-        }
-        style={{ width: "90%", height: "200px" }}
-      />
-
-      <h2>Upload Resume</h2>
+      <div>
+        <label>Blood Group:</label>
+        <select
+          value={bloodGroup}
+          onChange={(e) => setBloodGroup(e.target.value)}
+        >
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+        </select>
+      </div>
       <input
         type="file"
-        accept=".pdf"
-        onChange={(e) => {
-          const file = e.target.files && e.target.files[0];
-          if (file && file.size <= 5000) {
-            setEditedBio({ ...editedBio, resume: file });
-          } else {
-            setEditedBio({ ...editedBio, resume: null });
-          }
-        }}
+        onChange={(e) => setResume(e.target.files?.[0] || null)}
       />
-
-      <h2>Select Blood Group</h2>
-      <select
-        value={editedBio.aboutMe}
-        onChange={(e) =>
-          setEditedBio({ ...editedBio, bloodGroup: e.target.value })
-        }
-        style={{ width: "90%", height: "50px" }}
-      >
-        <option value="">Select Blood Group</option>
-        <option value="A+">A+</option>
-        <option value="B+">B+</option>
-        <option value="O+">O+</option>
-        <option value="AB+">AB+</option>
-      </select>
-
-      <button onClick={handleSaveClick}>Save</button>
+      <button onClick={handleSave}>Save</button>
+      <Link to="/">Back</Link>
     </div>
   );
 };

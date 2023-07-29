@@ -1,58 +1,81 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
+import { setAvailableSkills, setSelectedSkills } from '../features/skillsSlice'; 
+import { Link } from 'react-router-dom';
 
-interface EditSkillsProps {
-    onSaveSkills: (selectedSkills: string[]) => void;
-}
+const URL = 'https://newpublicbucket.s3.us-east-2.amazonaws.com/reactLiveAssignment/JsonFiles/GetProfessionalSkillsResponse.json'; 
 
-const EditSkills: React.FC<EditSkillsProps> = ({onSaveSkills}) => {
-  const [fetchedSkills, setFetchedSkills] = useState<string[]>([]);
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+const EditSkills: React.FC = () => {
+  const dispatch = useDispatch();
+  const availableSkills = useSelector((state: RootState) => state.skills.availableSkills);
+  const selectedSkills = useSelector((state: RootState) => state.skills.selectedSkills);
 
-  const fetchSkill = async () => {
-    try {
-      const res = await fetch(
-        "https://newpublicbucket.s3.us-east-2.amazonaws.com/reactLiveAssignment/JsonFiles/GetProfessionalSkillsResponse.json"
-      );
-      const data = await res.json();
-      console.log(data);
-      setFetchedSkills(data.skills.value);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    fetch(URL)
+      .then((response) => { 
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+
+        const extracted = data.result[0].skills;
+
+        const allSkills: string[] = [];  
+         extracted.forEach((obj: { [x: string]: string; } | null) => {
+            if (typeof obj === 'object' && obj !== null) {
+              const keys = Object.keys(obj);
+              if (keys.length > 0) {
+                allSkills.push(obj[keys[1]]);
+              }
+            }
+          });
+          
+          console.log(allSkills);
+          dispatch(setAvailableSkills(allSkills));
+        })
+      .catch((error) => {
+        console.error('Error fetching available skills:', error);
+      });
+
+
+
+  }, [dispatch]);
+
+  const handleSkillSelect = (skill: string) => {
+    if (!selectedSkills.includes(skill)) {
+      dispatch(setSelectedSkills([...selectedSkills, skill]));
     }
   };
 
-  useEffect(() => {
-    fetchSkill();
-  }, []);
-
-  const handleSkillChange = (skill: string) => {
-    setSelectedSkills((prev)=>
-    prev.includes(skill) ?
-    prev.filter((s) => s !== skill)
-    :
-    [...prev, skill]
-    )
-  }
-
-  const handleSaveClick = () => {
-    onSaveSkills(selectedSkills);
-  }
+  const handleSaveSkills = () => {
+    console.log('Selected skills:', selectedSkills);
+  };
 
   return (
     <div>
-      <h2>Edit Skills</h2>
-      {fetchedSkills.map((skill, index) => (
-        <div key={index}>
-          <label>
-            <input typeof="checkbox" value={skill}
-            checked={selectedSkills.includes(skill)}
-            onChange={() => handleSkillChange(skill)}
-            />
+      <h2>Available Skills</h2>
+      <ul>
+        {availableSkills.map((skill) => (
+          <li key={skill} onClick={() => handleSkillSelect(skill)} style={{cursor:"pointer"}}>
             {skill}
-          </label>
-        </div>
-      ))}
-      <button onClick={handleSaveClick}>Save</button>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Selected Skills</h2>
+      <ul>
+        {selectedSkills.map((skill) => (
+          <li key={skill}>{skill}</li>
+        ))}
+      </ul>
+
+      <button onClick={handleSaveSkills}>Save</button>
+
+      <Link to="/">Back</Link>
     </div>
   );
 };

@@ -1,24 +1,21 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
-interface SkillsProps {
-    skills: string[];
-}
+const Skills: React.FC = () => {
+  const skills = useSelector((state: RootState) => state.skills.selectedSkills);
 
-const Skills: React.FC<SkillsProps> = ({skills}) => {
-
-
-    return (
+  return (
     <div>
-        <h2>Skills</h2>
-        <ul>
-            {skills.map((skill,index)=>(
-                <li key={index}> {skill}</li>
-            ))}
-        </ul>
-        <Link to="/editskills">Edit</Link>
+      <h2>Skills</h2>
+      <ul>
+        {skills.map((skill, index) => (
+          <li key={index}>{skill}</li>
+        ))}
+      </ul>
+      {/* <button>Edit</button> */}
     </div>
-    )
-}
+  );
+};
 
 export default Skills;

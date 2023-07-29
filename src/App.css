@@ -23,6 +23,8 @@
   width: 375px;
   height: 812px;
   background: #ffffff;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 /* 
